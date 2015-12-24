@@ -163,6 +163,10 @@ Actions = (function() {
 
   _.closeTab = function(o) {
     chrome.tabs.query({currentWindow: true}, function(tabs) {
+      if (tabs.length == 1) {
+        chrome.tabs.update({url: chrome.runtime.getURL('pages/blank.html')});
+        return;
+      }
       var sortedIds = tabs.map(function(e) { return e.id; });
       var base = o.sender.tab.index;
       if (o.request.repeats > sortedIds.length - base) {
