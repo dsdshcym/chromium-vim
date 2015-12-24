@@ -80,10 +80,11 @@ var Listeners = {
       }
     },
     onActivated: function(tab) {
-      LastUsedTabs.push(tab.tabId);
-      if (LastUsedTabs.length > 2) {
-        LastUsedTabs.shift();
+      index = LastUsedTabs.indexOf(tab.tabId);
+      if (index != -1) {
+        LastUsedTabs.splice(index, 1);
       }
+      LastUsedTabs.push(tab.tabId);
       if (ActiveTabs[tab.windowId] === void 0) {
         ActiveTabs[tab.windowId] = [];
       }
@@ -93,6 +94,7 @@ var Listeners = {
       }
     },
     onRemoved: function(id, removeInfo) {
+      LastUsedTabs.splice(LastUsedTabs.indexOf(id), 1);
       updateTabIndices();
       if (ActiveTabs[removeInfo.windowId] !== void 0) {
         ActiveTabs[removeInfo.windowId] = ActiveTabs[removeInfo.windowId]
