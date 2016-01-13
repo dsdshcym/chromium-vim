@@ -164,8 +164,9 @@ Actions = (function() {
   _.closeTab = function(o) {
     chrome.tabs.query({currentWindow: true}, function(tabs) {
       if (tabs.length == 1) {
-        chrome.tabs.update({url: chrome.runtime.getURL('pages/blank.html')});
-        return;
+          chrome.tabs.create({
+              url:  '../pages/blank.html'
+          })
       }
       var sortedIds = tabs.map(function(e) { return e.id; });
       var base = o.sender.tab.index;
